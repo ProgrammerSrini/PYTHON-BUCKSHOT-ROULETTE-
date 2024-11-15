@@ -1,0 +1,1887 @@
+import random
+from time import sleep
+import sys
+
+yl=2
+dl=2
+mag=[]
+dealeritems=[]
+myitems=[]
+poss=[['L', 'B', 'B'], ['L','L','B','B'], ['L','L','L','B','B','B','B']]
+
+def suicide(yl):
+    if yl<=0:        
+        sleep(3)
+        dots()
+        sleep(4)
+        say("The medicine killed you! RIP", 0.05)
+        sleep(5)
+        print("Game Over !!!")
+        sys.exit()
+        
+    
+    
+def lifenotneg():
+    global dl, yl 
+    if dl<=0:
+        dl=0
+    if yl<0:
+        yl=0
+        
+def say(thing, time): #Smooth text
+    delay=0.04
+    for iterable in thing:
+        print(iterable, end='')
+        sleep(time-delay)
+    print()
+
+
+    
+def dots(): #Loading animation dots
+    print()
+    for iterable in '.....':
+        print(iterable, end='')
+        sleep(0.05)
+    print()
+    
+def dealersaw():
+    global dmg, shoot    
+    if 'Saw' in dealeritems and dmg==1:
+        
+        sleep(2)
+        dots()
+        say("The dealer saws off the gun...", 0.05)
+        dmg=2
+        dealeritems.remove('Saw')
+        shoot='You'
+    
+print("-----------BUCKSHOT ROULETTE---------------")
+sleep(2)
+say("\n Game made by Srini. Inspired by Mike Klubnika",0.05)
+sleep(2)
+print()
+print("Sign the contract")
+sleep(2)
+say('''--------GENERAL RELEASE OF LIABILITY-------------
+
+I fully understand and voluntarily assume the risks involved
+in participating in Buckshot Roulette, including the possibility
+of serious injury or death. By participating, I accept full
+responsibility for all consequences and agree to release Mr.Dealer
+from any and all liability, claims, or damages that may arise,
+whether due to negligence or otherwise. I acknowledge that
+I am participating at my own risk and that this
+game may result in life-threatening outcomes.''',0.04)
+
+name=input("Enter your name")
+say("\n -------ROUND 1-------",0.05)
+sleep(2)
+say(f"\n Your life: {yl}",0.05)
+sleep(1.5)
+say(f" Dealer's life: {dl}",0.05)
+i=0
+turn=0
+status='round1'
+print()
+sleep(2)
+
+#Priting a seperating line 
+def printline():
+    print("\n ----------------------------------------------------------------")
+    
+#Round 1 code
+def round1():
+    global turn,yl,dl,mag,status
+    turn=0
+    while True:
+        sleep(2)
+
+        
+        #My turn
+        if turn==0:
+            printline()
+            print("\n Your turn")
+            choice=int(input('''
+   Who do you want to shoot?
+[1] Shoot the Dealer
+[2] Shoot yourself
+
+ Shooting yourself with  a blank round skips the dealers turn'''))
+            #Shooting the dealer
+            if choice==1:
+                if mag[0]=='L':
+                    sleep(0.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOOM! You shot the dealer")
+                    dl-=1
+                    sleep(2)
+                    print("Dealer's life:", dl)
+                    print("Your life:", yl)
+                    del mag[0]
+                    turn=1
+                else:
+                    sleep(0.5)
+                    dots()
+                    sleep(2)
+                    print("Click! It was a blank round! ")
+                    sleep(2)
+                    print("Dealer's life:", dl)
+                    print("Your life:", yl)
+                    del mag[0]
+                    turn=1
+                    
+            #Selected to shoot myself
+            elif choice==2:
+                if mag[0]=='B':
+                    sleep(0.5)
+                    dots()
+                    sleep(2)
+                    print("Click... You survived!")
+                    sleep(2)
+                    print("Your life", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    turn=0
+                else:
+                    sleep(0.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOM!... You shot yourself!")
+                    yl-=1
+                    sleep(2)
+                    print("Your life", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    turn=1
+                    
+            #Invalid input
+            else:
+                print("\nInvalid input")
+
+        
+        #Dealer's turn
+        else:
+            printline()
+            sleep(1.5)
+            print("\n Dealer's turn")
+            if mag.count('L')> mag.count('B'):
+                sleep(2)
+                print("The dealer points the gun towards you")
+                
+                if mag[0]=='L':
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOM! The dealer shot you!")
+                    yl-=1
+                    sleep(2)
+                    print("Your life:", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    turn=0
+
+                else:
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("Click.... You survived! It was a blank round")
+                    sleep(2)
+                    print("Your life:", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    turn=0
+                           
+            elif mag.count('L')< mag.count('B'):
+                sleep(2)
+                print("The dealer points the gun towards himself")
+
+                if mag[0]=='L':
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOM! The dealer shot himself!")
+                    dl-=1
+                    sleep(2)
+                    print("Dealer's life:", dl)
+                    print("Your life:", yl)
+                    del mag[0]
+                    turn=0
+
+                else:
+
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("Click.... The dealer survived! It was a blank round")
+                    sleep(2)
+                    print("Dealer's life:", dl)
+                    print("Your life:", yl)
+                    del mag[0]
+                    turn=1
+                    
+
+                
+            else:
+                if random.randint(1,2)==1:
+                    sleep(2)
+                    print("The dealer points the gun towards you")
+                    if mag[0]=='L':
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM! The dealer shot you!")
+                        yl-=1
+                        sleep(2)
+                        print("Your life:", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        turn=0
+
+                    else:
+
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("Click.... You survived! It was a blank round")
+                        sleep(2)
+                        print("Your life:", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        turn=0
+                    
+                else:
+                    sleep(2)
+                    print("The dealer points the gun towards himself")
+                    
+                    if mag[0]=='L':
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM! The dealer shot himself!")
+                        dl-=1
+                        sleep(2)
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        turn=0
+
+                    else:
+
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("Click.... The dealer survived! It was a blank round")
+                        sleep(2)
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        turn=1
+
+
+                    
+        if yl==0:
+            sleep(3)
+            dots()
+            sleep(4)
+            say("So unfortunate! You risked your life for money and it was a bad idea!", 0.05)
+            sleep(5)
+            print("Game Over !!!")
+            sys.exit()
+            
+        if dl==0:
+            sleep(3)
+            dots()
+            sleep(3)
+            say(f'Congratulations {name}! You have won the FIRST round', 0.05)
+            sleep(3)
+            say("The dealer has got some special powers. He came back to life! ",0.05)
+            sleep(4)
+            say("Continue playing for 2 more rounds to beat the dealer!",0.05)
+            sleep(3.5)
+            status='round2'
+            break
+            
+
+        if len(mag)==0 and not(yl<=0 or dl<=0):
+            sleep(2)
+            dots()
+            sleep(1)
+            say("The rounds got over", 0.05)
+            sleep(1.5)
+            say("Get ready for a new combination of rounds",0.05)
+            sleep(1)
+            printline()
+            print()
+            print()
+            sleep(2)
+            status='1change mag'
+            break
+    return None
+
+
+#Round 1
+
+while '1' in status:
+    if i==3:
+        i=0
+    mag=poss[i]
+    say(f" The current magazine: {mag}", 0.05)
+    sleep(2)
+    say(f" {mag.count('L')} Live rounds, {mag.count('B')} blank", 0.05)
+    sleep(2)
+    say(" The rounds are shuffled in a random sequence.....", 0.05)
+    printline()
+    random.shuffle(mag)
+    round1()
+    if status=='1change mag':
+        i+=1
+
+#Dealer's AI
+def dealerAI(roundnum,know, shoot,inverter, dealerphone, dealeritems, mag, placement):
+    global dl, turn,yl,dmg
+    sleep(1.5)    
+    while turn==1 and dl>0 and len(mag)>0:
+        shoot=False
+        used=False
+        know=False
+        inverter=False
+        dmg=1
+        it=-1               
+        if True:#Using Items
+            while True:
+                if mag.count('L')*mag.count('B')==0 and not(len(mag)==0):
+                    know=mag[0]
+                    if know=='L':
+                        shoot='You'
+                    else:
+                        shoot='Dealer'
+                    
+                        
+                        
+                if len(dealeritems)==0:
+                    break
+
+                
+                
+                if dealerphone!=False and dealerphone in placement:                    
+                    if placement.index(dealerphone)==0:
+                        know=mag[0]
+                        if mag[0]=='B':
+                            if 'Inverter' in dealeritems:                                
+                                inverter='Wants live'
+                        else:
+                            shoot='You'
+                            
+                        
+                if used==False:
+                    it+=1
+                if used==True:
+                    it=0                    
+                if it<=(len(dealeritems))-1:                    
+                    i=dealeritems[it]                        
+                if it>(len(dealeritems))-1:                    
+                    break
+                used=False
+                
+                
+
+                if i=='Cigarette':
+                    
+                    if roundnum==2:
+                        if dl<4:
+                            sleep(2)
+                            dots()
+                            say("The dealer smokes a cigarette", 0.05)
+                            dl+=1
+                            sleep(2)
+                            say(f"Dealer's life: {dl}",0.05)
+                            dealeritems.remove('Cigarette')
+                            used=True
+                            continue
+                            
+                            
+                    else:
+                        if dl<6:
+                            sleep(2)
+                            dots()
+                            say("The dealer smokes a cigarette", 0.05)
+                            dl+=1
+                            sleep(2)
+                            say(f"Dealer's life: {dl}",0.05)
+                            dealeritems.remove('Cigarette')
+                            used=True
+                            continue
+                            
+                            
+                if i=='Magnifying glass':
+                    
+
+                    if dealerphone!=False and dealerphone in placement: #Dealer has used cell phone before
+  
+                        if not (placement.index(dealerphone)==0):
+                            if know==False: 
+                                sleep(2)
+                                dots()
+                                say("The dealer uses the Magnifying glass", 0.05)
+                                know=mag[0]
+                                if know=='L':
+                                    shoot='You'
+                                else:
+                                    shoot='Dealer'
+                                dealeritems.remove('Magnifying glass')
+                                used=True
+                                continue
+                    else: 
+                        
+                        if know==False: 
+                                sleep(2)
+                                dots()
+                                say("The dealer uses the Magnifying glass", 0.05)
+                                know=mag[0]
+                                if know=='L':
+                                    shoot='You'
+                                else:
+                                    shoot='Dealer'
+                                dealeritems.remove('Magnifying glass')
+                                used=True
+                                continue
+                    
+                
+                if i=='Saw' and dmg==1:
+                    
+                    if dealerphone!=False  and dealerphone in placement:
+                        if placement.index(dealerphone)==0:
+                            if mag[0]=='L':
+                                sleep(2)
+                                dots()
+                                say("The dealer saws off the gun...", 0.05)
+                                dmg=2
+                                dealeritems.remove('Saw')
+                                shoot='You'
+                                used=True
+                                continue
+
+                            else:
+                                if 'Inverter' in dealeritems:
+                                    
+                                    inverter='Wants live'
+                                    sleep(2)
+                                    dots()
+                                    say("The dealer saws off the gun...", 0.05)
+                                    dmg=2
+                                    dealeritems.remove('Saw')
+                                    shoot='You'
+                                    used=True
+                                    continue
+                                    
+                                
+
+                        
+                            
+                                
+                    
+                    if know=='L':
+                        sleep(2)
+                        dots()
+                        say("The dealer saws off the gun...", 0.05)
+                        dmg=2
+                        dealeritems.remove('Saw')
+                        shoot='You'
+                        used=True
+                        continue
+
+                    if know=='B':
+                        
+                        if 'Inverter' in dealeritems:
+                            
+                            sleep(2)
+                            dots()
+                            say("The dealer saws off the gun...", 0.05)
+                            dmg=2
+                            dealeritems.remove('Saw')
+                            shoot='You'
+                            inverter='Wants live'
+                            used=True
+                            continue
+                        
+                        
+                        
+                    if know==False:
+                               
+                        if mag.count('L')>mag.count('B'):
+                            if random.randint(1,100)<66: #65% chance of using saw
+                                sleep(2)
+                                dots()
+                                say("The dealer saws off the gun...", 0.05)
+                                dmg=2
+                                dealeritems.remove('Saw')
+                                shoot='You'
+                                used=True
+                                continue
+                                
+                        elif mag.count('L')==mag.count('B'):
+                            if random.randint(1,100)<41: #40% chance of using saw
+                                sleep(2)
+                                dots()
+                                say("The dealer saws off the gun...", 0.05)
+                                dmg=2
+                                dealeritems.remove('Saw')
+                                shoot='You'
+                                used=True
+                                continue
+
+                        else:
+                            if random.randint(1,100)<71 and 'Inverter' in dealeritems:#70% chance of inverting if live<blank
+                                inverter='Wants live'
+                                sleep(2)
+                                dots()
+                                say("The dealer saws off the gun...", 0.05)
+                                dmg=2
+                                dealeritems.remove('Saw')
+                                shoot='You'
+                                used=True
+                                continue
+                                    
+                    
+                
+                    
+                if i=='Inverter' and inverter!='Used' and know!='L':                   
+
+                    if know=='B' and inverter!='Wants live':
+                        if True:
+                        
+                            sleep(2)
+                            dots()
+                            say("The dealer uses the inverter", 0.05)
+                            mag[0]='L'
+                            inverter='Used'
+                            dealeritems.remove('Inverter')
+                            shoot='You'
+                            used=True
+                            continue
+                        else:
+                            if yl<=2:
+                                
+                                sleep(2)
+                                dots()
+                                say("The dealer uses the inverter", 0.05)
+                                mag[0]='L'
+                                inverter='Used'
+                                dealeritems.remove('Inverter')
+                                shoot='You'
+                                used=True
+                                continue
+
+                            else:                                
+                                if random.randint(1,100)<41: #40% chance of inverting
+                                    sleep(2)
+                                    dots()
+                                    say("The dealer uses the inverter...", 0.05)
+                                    if mag[0]=='L':
+                                        mag[0]='B'
+                                    else:
+                                        mag[0]='L'
+                                    dealeritems.remove('Inverter')
+                                    inverter='Used'
+                                    shoot='You'
+                                    used=True
+                                    continue
+                                                                            
+                    
+                    if inverter=='Wants live':
+                        
+                        sleep(2)
+                        dots()
+                        say("The dealer uses the inverter", 0.05)
+                        if mag[0]=='L':
+                            mag[0]='B'
+                        else:
+                            mag[0]='L'
+                        inverter='Used'
+                            
+                            
+                        dealeritems.remove('Inverter')
+                        shoot='You'
+                        used=True
+                        continue
+
+                    elif inverter!='Wants live':
+                                
+                        if mag.count('L')==mag.count('B'):
+                            if random.randint(1,100)<41: #40% chance of inverting
+                                sleep(2)
+                                dots()
+                                say("The dealer uses the inverter...", 0.05)
+                                if mag[0]=='L':
+                                    mag[0]='B'
+                                else:
+                                    mag[0]='L'
+                                
+                                dealeritems.remove('Inverter')
+                                inverter='Used'
+                                shoot='You'
+                                used=True
+                                continue
+
+                        elif mag.count('L')<mag.count('B') :
+                            if random.randint(1,100)<71: #70% chance of inverting if live<blank
+                                inverter='Wants live'
+                                sleep(2)
+                                dots()
+                                say("The dealer uses the inverter...", 0.05)
+                                if mag[0]=='L':
+                                    mag[0]='B'
+                                else:
+                                    mag[0]='L'
+                               
+                                dealeritems.remove('Inverter')
+                                inverter='Used'
+                                shoot='You'
+                                used=True
+                                continue
+                    
+                    
+                if True:
+                    
+                    if i=='Cell phone':
+                        if not mag.count('L')*mag.count('B')==0:                            
+                        
+                            dealerphone=random.choices(placement)
+                            dealerphone=dealerphone[0] #dealerphone is the #shell he knows
+                            sleep(2)
+                            dots()
+                            say("The dealer uses the Cell phone", 0.05)
+                            dealeritems.remove('Cell phone')
+                            used=True
+                            continue
+
+                    if i== 'Medicine':
+                        if len(mag)==1: #The dealer does not use the medicine for this turn
+                            continue                                                                               
+                        if roundnum==2:
+                            if dl<4: #Second round
+                                if dl==1:
+                                    
+                                    sleep(2)
+                                    dots()
+                                    say("The dealer uses the Medicine", 0.05)
+                                    
+                                    if random.randint(1,100)>=60:#Chances of medicine fail
+                                        sleep(3)
+                                        dots()
+                                        say("It was an expired medicine", 0.05)
+                                        dl-=1
+                                        sleep(2)
+                                        say(f"Dealer's life: {dl}",0.05)
+                                        dealeritems.remove('Medicine')
+                                        used=True
+                                        continue
+                                    else:
+                                        sleep(3)
+                                        dots()
+                                        say("The medicine worked perfectly", 0.05)
+                                        dl+=2
+                                        sleep(2)
+                                        say(f"Dealer's life: {dl}",0.05)
+                                        dealeritems.remove('Medicine')
+                                        used=True
+                                        continue
+
+
+                                else:
+                                    if random.randint(1,100)<=10:
+                                        sleep(2)
+                                        dots()
+                                        say("The dealer uses the Medicine", 0.05)
+                                    
+                                        if random.randint(1,100)>=60: #Chances of medicine fail
+                                            sleep(3)
+                                            dots()
+                                            say("It was an expired medicine", 0.05)
+                                            dl-=1
+                                            sleep(2)
+                                            say(f"Dealer's life: {dl}",0.05)
+                                            dealeritems.remove('Medicine')
+                                            used=True
+                                            continue
+                                        else:
+                                            sleep(3)
+                                            dots()
+                                            say("The medicine worked perfectly", 0.05)
+                                            dl+=2
+                                            sleep(2)
+                                            say(f"Dealer's life: {dl}",0.05)
+                                            dealeritems.remove('Medicine')
+                                            used=True
+                                            continue
+
+                        
+                        else: #3rd round medicine                                                        
+                            if dl<6: 
+                                if dl<=2:
+                                    
+                                    sleep(2)
+                                    dots()
+                                    say("The dealer uses the Medicine", 0.05)
+                                    
+                                    if random.randint(1,100)>=60:#Chances of medicine fail
+                                        sleep(3)
+                                        dots()
+                                        say("It was an expired medicine", 0.05)
+                                        dl-=1
+                                        sleep(2)
+                                        say(f"Dealer's life: {dl}",0.05)
+                                        dealeritems.remove('Medicine')
+                                        used=True
+                                        continue
+                                    else:
+                                        sleep(3)
+                                        dots()
+                                        say("The medicine worked perfectly", 0.05)
+                                        dl+=2
+                                        sleep(2)
+                                        say(f"Dealer's life: {dl}",0.05)
+                                        dealeritems.remove('Medicine')
+                                        used=True
+                                        continue
+
+
+                                else:
+                                    if random.randint(1,100)<=5:                                        
+                                        sleep(2)
+                                        dots()
+                                        say("The dealer uses the Medicine", 0.05)
+                                    
+                                        if random.randint(1,100)>=60: #Chances of medicine fail
+                                            sleep(3)
+                                            dots()
+                                            say("It was an expired medicine", 0.05)
+                                            dl-=1
+                                            sleep(2)
+                                            say(f"Dealer's life: {dl}",0.05)
+                                            dealeritems.remove('Medicine')
+                                            used=True
+                                            continue
+                                        else:
+                                            sleep(3)
+                                            dots()
+                                            say("The medicine worked perfectly", 0.05)
+                                            dl+=2
+                                            sleep(2)
+                                            say(f"Dealer's life: {dl}",0.05)
+                                            dealeritems.remove('Medicine')
+                                            used=True
+                                            continue
+                
+                if dl<=0:                            
+                    break
+
+        if dl<=0:
+            break
+                                                           
+        #If needed code probability AI down here
+
+
+
+        
+                        
+        if shoot==False: #Shooting AI if he doesn't know what to do
+            
+            if mag.count('L')> mag.count('B'):
+                sleep(2)
+                dealersaw()
+                print("The dealer points the gun towards you")
+                
+                if mag[0]=='L':
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOM! The dealer shot you!")
+                    yl-=dmg
+                    dmg=1
+                    sleep(2)
+                    lifenotneg()
+                    print("Your life:", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    del placement[0]
+                    turn=0
+                    break
+
+                else:
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("Click.... You survived! It was a blank round")
+                    sleep(2)
+                    lifenotneg()
+                    print("Your life:", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    del placement[0]
+                    turn=0
+                    break
+                           
+            elif mag.count('L')< mag.count('B'):
+                sleep(2)
+                print("The dealer points the gun towards himself")
+
+                if mag[0]=='L':
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOM! The dealer shot himself!")
+                    dl-=dmg
+                    dmg=1
+                    sleep(2)
+                    lifenotneg()
+                    print("Dealer's life:", dl)
+                    print("Your life:", yl)
+                    del mag[0]
+                    del placement[0]
+                    turn=0
+                    break
+
+                else:
+
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("Click.... The dealer survived! It was a blank round")
+                    sleep(2)
+                    lifenotneg()
+                    print("Dealer's life:", dl)
+                    print("Your life:", yl)
+                    del mag[0]
+                    del placement[0]
+                    turn=1
+                    
+
+                
+            else:
+                if random.randint(1,2)==1:
+                    sleep(2)
+                    dealersaw()
+                    print("The dealer points the gun towards you")
+                    if mag[0]=='L':
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM! The dealer shot you!")
+                        yl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Your life:", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        del placement[0]
+                        turn=0
+                        break
+
+                    else:
+
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("Click.... You survived! It was a blank round")
+                        sleep(2)
+                        lifenotneg()
+                        print("Your life:", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        del placement[0]
+                        turn=0
+                        break
+                    
+                else:
+                    sleep(2)
+                    print("The dealer points the gun towards himself")
+                    
+                    if mag[0]=='L':
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM! The dealer shot himself!")
+                        dl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=0
+                        break
+
+                    else:
+
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("Click.... The dealer survived! It was a blank round")
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+            
+        
+        elif shoot=='You':
+            if shoot=='You':               
+                sleep(2)
+                dealersaw()
+                print("The dealer points the gun towards you")
+                
+                if mag[0]=='L':
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("BOOOOM! The dealer shot you!")
+                    yl-=dmg
+                    dmg=1
+                    sleep(2)
+                    lifenotneg()
+                    print("Your life:", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    del placement[0]
+                    turn=0
+                    break
+
+                else:
+                    sleep(1.5)
+                    dots()
+                    sleep(2)
+                    print("Click.... You survived! It was a blank round")
+                    sleep(2)
+                    lifenotneg()
+                    print("Your life:", yl)
+                    print("Dealer's life:", dl)
+                    del mag[0]
+                    del placement[0]
+                    turn=0
+                    break
+                    
+
+        elif shoot=='Dealer':            
+            if shoot=='Dealer':                
+                if True:                    
+                    sleep(2)
+                    print("The dealer points the gun towards himself")
+                    
+                    if mag[0]=='L':
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM! The dealer shot himself!")
+                        dl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=0
+                        break
+
+                    else:
+
+                        sleep(1.5)
+                        dots()
+                        sleep(2)
+                        print("Click.... The dealer survived! It was a blank round")
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+            
+        
+        if turn==0:
+            break
+        if dl<=0:
+            break
+        if len(mag)<=0:
+            break
+            
+                                          
+#Round 2 code  
+def round2():
+    global status, dealeritems,dmg, items, myitems, yl, dl, turn,i
+    yl=4
+    dl=4    
+    while '2' in status:        
+        turn=0
+        dmg=1
+        dealerphone=False
+        over=False
+        say("You have recieved a suitcase.... Press enter to open it",0.05)
+        input()
+        
+        myitemsextra=random.choices(items, k=2) #k=4 for round3
+        myitems.extend(myitemsextra)
+        
+        while len(myitems)>8:
+            del myitems[-1]
+            over=True
+            
+        
+        dealeritemsextra=[]
+        dealeritemsextra=random.choices(items, k=2)
+        
+        
+        while True:
+            if dealeritemsextra.count('Cell phone') + dealeritems.count('Cell phone')>1 or not(dealeritemsextra.count('Beer'))==0:
+                dealeritemsextra=random.choices(items, k=2) #k=4 for round3
+            else:
+                dealeritems.extend(dealeritemsextra)
+                break
+            
+        while len(dealeritems)>8:
+            del dealeritems[-1]
+        if over==True:
+            
+            say('How unfortunate! There is no extra space in your inventory !', 0.05)
+        if status=='round2': #Change round3  for round3
+            say(' You got these items ', 0.05)
+        if status=='2changemag': #Change 3 change mag for round3
+            say(' You have these items ', 0.05)
+        sleep(0.5)
+        print(myitems)
+        sleep(2)
+        say(' Dealer got these items ', 0.05)
+        sleep(0.5)
+        
+        dealeritems = sorted(dealeritems, key=lambda x: items.index(x))
+        print(dealeritems)
+
+        
+        
+        #Magazine Designer
+        if status=='2changemag':
+            i+=1
+        
+        if i==len(poss):
+            i=0
+        mag=poss[i]
+        placement=[y for y in range(1,len(mag)+1)]
+            
+        say(f" The current magazine: {mag}", 0.05)
+        if i==0:
+            sleep(2)
+            say(f" {mag.count('L')} Live rounds, {mag.count('B')} blank", 0.05)
+        sleep(2)
+        say(" The rounds are shuffled in a random sequence.....", 0.05)
+        printline()
+
+        #Ensures actual copying
+        mag2=mag.copy()
+
+        while mag2==mag:
+            random.shuffle(mag2)
+
+        mag=mag2.copy()
+        
+
+            
+        
+            
+
+
+
+        
+        
+        while True:
+            sleep(2)
+            #My Turn
+            if turn==0:
+                dmg=1
+                while True:
+                    printline()
+                    say("Your turn",0.05)
+                    say('''
+        [D] - Shoot Dealer
+        [Y] - Shoot yourself''',0.05)
+                    if not len(myitems)==0:
+                        say('''
+        Or use any of your items''',0.05)
+                        print()
+                        for i in range(0,len(myitems)):
+                            print(f"[{i+1}] {myitems[i]}")
+                    choice=input()
+                    if choice.isdigit()==True:
+                        choice=int(choice)
+
+                        if not (choice>len(myitems)) and not choice<0:
+                        
+                            if myitems[choice-1]=='Cigarette': #Cigarette Use
+                                if yl<4:
+                                    sleep(2)
+                                    dots()
+                                    sleep(1)
+                                    yl+=1
+                                    say("Cigarette used", 0.05)
+                                    myitems.remove('Cigarette')
+                                    sleep(2)
+                                    print("Your life:", yl)
+                                    sleep(2)
+                                    continue
+                                else:
+                                    sleep(2)
+                                    say("You already have full health", 0.05)
+                                    sleep(2)
+                                    continue
+                                
+
+                            if myitems[choice-1]=='Magnifying glass': #Magnifying
+                                
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Magnifying glass used", 0.05)
+                                sleep(1.5)
+                                if mag[0]=='L':
+                                    say("Live round", 0.05)
+                                else:
+                                    say("Blank round", 0.05)
+
+                                myitems.remove('Magnifying glass')
+                                sleep(2)
+                                continue
+
+                            if myitems[choice-1]=='Beer': #Beer
+                                
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Beer used", 0.05)
+                                if mag[0]=='L':
+                                    say("Ejected a live round", 0.05)
+                                    del mag[0]
+                                    del placement[0]
+                                else:
+                                    say("Ejected a blank round", 0.05)
+                                    del mag[0]
+                                    del placement[0]
+                                myitems.remove('Beer')
+                                sleep(2)
+                                continue
+
+                            if myitems[choice-1]=='Saw':
+                                if dmg==1:
+                                    
+                                    sleep(2)
+                                    dots()
+                                    sleep(1)
+                                    say("Saw used", 0.05)
+                                    dmg=2
+
+                                    myitems.remove('Saw')
+                                    sleep(2)
+                                    continue
+                                else:
+                                    say("You already used sawed off the gun barrel", 0.05)
+                                    sleep(2)
+                                    continue
+
+                            if myitems[choice-1]=='Inverter':
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Inverter used", 0.05)
+                                if mag[0]=='L':
+                                    mag[0]='B'
+                                else:
+                                    mag[0]='L'
+
+                                myitems.remove('Inverter')
+                                sleep(2)
+                                continue
+
+                            if myitems[choice-1]=='Medicine':
+                                if yl<4:
+                                    sleep(2)
+                                    dots()
+                                    sleep(1)
+                                    say("Medicine used", 0.05)
+                                    sleep(2)
+                                    dots()
+                                    if random.randint(1,100)<=40:
+                                        say("Medicine succesfully worked", 0.05)
+                                        yl+=2
+                                        sleep(2)
+                                        print("Your life:", yl)
+                                    else:
+                                        say('You lost one life for consuming an expired medicine', 0.05)
+                                        yl-=1
+                                        sleep(2)
+                                        print("Your life:", yl)
+                                        
+                                    myitems.remove('Medicine')
+                                    sleep(2)
+                                    continue
+
+                                else:
+                                    sleep(2)
+                                    say("You already have full health", 0.05)
+                                    sleep(2)
+                                    continue
+                                suicide(yl)
+                                
+                            if myitems[choice-1]=='Cell phone':
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Cell phone used", 0.05)
+                                sleep(2)
+                                dots()
+                                sleep(2.5)
+                                phonechoose=random.choices(placement)[0]
+                                phoneindex=placement.index(phonechoose)
+                                if mag[phoneindex]=='L':
+                                    say(f' The phone says that "The shell number {phonechoose} contains a live round"', 0.05)
+
+                                else:
+                                    say(f' The phone says that "The shell number {phonechoose} contains a blank round"', 0.05)
+                                    
+
+                                myitems.remove('Cell phone')
+                                sleep(2)
+                                continue
+                                
+
+                        else:
+                            print("\nInvalid input")
+                            sleep(2)
+                            continue
+                            
+                    
+                    elif choice in 'Dd' or choice in 'Yy':
+                        choice=choice.upper()
+                        break
+                    
+                    else:
+                        print("\n Invalid input")
+                        sleep(2)
+                        continue
+                        
+
+                if choice=='D':
+                    if mag[0]=='L':
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOOM! You shot the dealer")
+                        dl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+                    else:                 
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("Click! It was a blank round! ")
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+
+                else:
+                    if mag[0]=='B':
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("Click... You survived!")
+                        sleep(2)
+                        lifenotneg()
+                        print("Your life", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        del placement[0]
+                        turn=0
+                    else:
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM!... You shot yourself!")
+                        yl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Your life", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+            
+            else:# <====Dealer's turn
+                printline()
+                sleep(1.5)
+                print("\n Dealer's turn")
+                dmg=1
+                mgused=False
+                know=False
+                shoot=False
+                
+                inverter=False
+                dealerAI(2,know, shoot,inverter, dealerphone, dealeritems, mag, placement)
+
+                #After this its either my turn or dealer dies or i die
+                #if i die then the code of my death continues below this
+
+
+            if len(mag)==0 and not(yl<=0 or dl<=0):
+                sleep(2)
+                dots()
+                sleep(1)
+                say("The rounds got over", 0.05)
+                sleep(1.5)
+                say("Get ready for a new combination of rounds",0.05)
+                sleep(1)
+                printline()
+                print()
+                print()
+                sleep(2)
+                status='2changemag'
+                break
+
+            if yl<=0:
+                sleep(3)
+                dots()
+                sleep(3.5)
+                say("So unfortunate! You risked your life for money and it was a bad idea!", 0.05)
+                sleep(3)
+                say("You survived the first round! But all your efforts went in vain!", 0.05)
+                sleep(3)
+                print("Game Over !!!")
+                sys.exit()
+                
+            if dl<=0:
+                sleep(3)
+                dots()
+                sleep(3)
+                say(f'Congratulations {name}! You have won the SECOND round', 0.05)
+                sleep(3)
+                say("The dealer has got some special powers. He came back to life! ",0.05)
+                sleep(4)
+                say("Continue playing for 1 last round to beat the dealer!",0.05)
+                sleep(3.5)
+                status='round3'
+                break
+                
+#Round 2 initial
+
+items=['Cigarette','Magnifying glass','Beer', 'Saw','Inverter', 'Cell phone', 'Medicine',]
+poss=[['L', 'L', 'L', 'B', 'B'],
+      ['L', 'L', 'L', 'L', 'B', 'B', 'B', 'B'],
+      ['B', 'B', 'B', 'L', 'L'],
+      ['B', 'B', 'L', 'L']]
+yl=4
+dl=4
+printline()
+sleep(1)
+say('------- ROUND 2 -------',0.05)
+sleep(2)
+say('Dealer: "Lets make this a little more interesting"',0.05)
+sleep(2)
+say('Two items for each',0.05)
+sleep(2)
+say('More items before every load', 0.05)
+sleep(3)
+say('Before entering round 2, learn about those items',0.05)
+sleep(3)
+print()
+say('''
+1. Magnifying Glass - Check the current round in the chamber
+2. Cigaratte - Gain back one life
+3. Beer - Remove the current shell of the chamber
+4. Medicine - An potentially expired medicine which provides 40% chance of regaining 2 life, if not lose 1 life
+5. Inverter - Swaps the polarity of the current round
+6. Saw - Shotgun does double damage
+7. Cell phone - tells whether a specific round is blank or live
+You can hold maximum of 8 items.''',0.05)
+
+sleep(2)
+say(f"\n Your life: {yl}",0.05)
+sleep(1.5)
+say(f"\n Dealer's life: {dl}",0.05)
+sleep(3)
+printline()
+sleep(1)
+i=0
+round2() #<==== round 2 entire code
+
+
+#THE FINAL ROUND
+
+def round3(name):
+    global status, dealeritems,dmg, items, myitems, yl, dl, turn,i
+    yl=6
+    dl=6   
+    while '3' in status:        
+        turn=0
+        dmg=1
+        dealerphone=False
+        over=False
+        say("You have recieved a suitcase.... Press enter to open it",0.05)
+        input()
+        
+        myitemsextra=random.choices(items, k=4)
+        myitems.extend(myitemsextra)
+        
+        while len(myitems)>8:
+            del myitems[-1]
+            over=True
+            
+        
+        dealeritemsextra=[]
+        dealeritemsextra=random.choices(items, k=4)
+        
+        
+        while True:
+            if dealeritemsextra.count('Cell phone') + dealeritems.count('Cell phone')>1 or not(dealeritemsextra.count('Beer'))==0:
+                dealeritemsextra=random.choices(items, k=4)
+            else:
+                dealeritems.extend(dealeritemsextra)
+                break
+            
+        while len(dealeritems)>8:
+            del dealeritems[-1]
+        if over==True:
+            
+            say('How unfortunate! There is no extra space in your inventory !', 0.05)
+        if status=='round3':
+            say(' You got these items ', 0.05)
+        if status=='3changemag':
+            say(' You have these items ', 0.05)
+        sleep(0.5)
+        print(myitems)
+        sleep(2)
+        say(' Dealer got these items ', 0.05)
+        sleep(0.5)
+        
+        dealeritems = sorted(dealeritems, key=lambda x: items.index(x))
+        print(dealeritems)
+
+        
+        
+        #Magazine Designer
+        if status=='3changemag':
+            i+=1
+        
+        if i==len(poss):
+            i=0
+        mag=poss[i]
+        placement=[y for y in range(1,len(mag)+1)]
+            
+        say(f" The current magazine: {mag}", 0.05)
+        if i==0:
+            sleep(2)
+            say(f" {mag.count('L')} Live rounds, {mag.count('B')} blank", 0.05)
+        sleep(2)
+        say(" The rounds are shuffled in a random sequence.....", 0.05)
+        printline()
+
+        #Ensures actual copying
+        mag2=mag.copy()
+
+        while mag2==mag:
+            random.shuffle(mag2)
+
+        mag=mag2.copy()
+        
+
+        while True:
+            sleep(2)
+            #My Turn
+            dmg=1
+            if turn==0:
+                while True:
+                    printline()
+                    say("Your turn",0.05)
+                    say('''
+        [D] - Shoot Dealer
+        [Y] - Shoot yourself''',0.05)
+                    if not len(myitems)==0:
+                        say('''
+        Or use any of your items''',0.05)
+                        print()
+                        for i in range(0,len(myitems)):
+                            print(f"[{i+1}] {myitems[i]}")
+                    choice=input()
+                    if choice.isdigit()==True:
+                        choice=int(choice)
+
+                        if not (choice>len(myitems)) and not choice<0:
+                        
+                            if myitems[choice-1]=='Cigarette': #Cigarette Use
+                                if yl<6:
+                                    sleep(2)
+                                    dots()
+                                    sleep(1)
+                                    yl+=1
+                                    say("Cigarette used", 0.05)
+                                    myitems.remove('Cigarette')
+                                    sleep(2)
+                                    print("Your life:", yl)
+                                    sleep(2)
+                                    continue
+                                else:
+                                    sleep(2)
+                                    say("You already have full health", 0.05)
+                                    sleep(2)
+                                    continue
+                                
+
+                            if myitems[choice-1]=='Magnifying glass': #Magnifying
+                                
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Magnifying glass used", 0.05)
+                                sleep(1.5)
+                                if mag[0]=='L':
+                                    say("Live round", 0.05)
+                                else:
+                                    say("Blank round", 0.05)
+
+                                myitems.remove('Magnifying glass')
+                                sleep(2)
+                                continue
+
+                            if myitems[choice-1]=='Beer': #Beer use
+                                
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Beer used", 0.05)
+                                if mag[0]=='L':
+                                    say("Ejected a live round", 0.05)
+                                    del mag[0]
+                                    del placement[0]
+                                else:
+                                    say("Ejected a blank round", 0.05)
+                                    del mag[0]
+                                    del placement[0]
+                                myitems.remove('Beer')
+                                sleep(2)
+                                continue
+
+                            if myitems[choice-1]=='Saw':
+                                if dmg==1:
+                                    
+                                    sleep(2)
+                                    dots()
+                                    sleep(1)
+                                    say("Saw used", 0.05)
+                                    dmg=2
+
+                                    myitems.remove('Saw')
+                                    sleep(2)
+                                    continue
+                                else:
+                                    say("You already used sawed off the gun barrel", 0.05)
+                                    sleep(2)
+                                    continue
+
+                            if myitems[choice-1]=='Inverter':
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Inverter used", 0.05)
+                                if mag[0]=='L':
+                                    mag[0]='B'
+                                else:
+                                    mag[0]='L'
+
+                                myitems.remove('Inverter')
+                                sleep(2)
+                                continue
+
+                            if myitems[choice-1]=='Medicine':
+                                if yl<6:
+                                    sleep(2)
+                                    dots()
+                                    sleep(1)
+                                    say("Medicine used", 0.05)
+                                    sleep(2)
+                                    dots()
+                                    if random.randint(1,100)<=40:
+                                        say("Medicine succesfully worked", 0.05)
+                                        yl+=2
+                                        sleep(2)
+                                        print("Your life:", yl)
+                                    else:
+                                        say('You lost one life for consuming an expired medicine', 0.05)
+                                        yl-=1
+                                        sleep(2)
+                                        print("Your life:", yl)
+                                        
+                                    myitems.remove('Medicine')
+                                    sleep(2)
+                                    continue
+
+                                else:
+                                    sleep(2)
+                                    say("You already have full health", 0.05)
+                                    sleep(2)
+                                    continue
+                                
+                                suicide(yl)
+
+                                
+                            if myitems[choice-1]=='Cell phone':
+                                sleep(2)
+                                dots()
+                                sleep(1)
+                                say("Cell phone used", 0.05)
+                                sleep(2)
+                                dots()
+                                sleep(2.5)
+                                phonechoose=random.choices(placement)[0]
+                                phoneindex=placement.index(phonechoose)
+                                if mag[phoneindex]=='L':
+                                    say(f' The phone says that "The shell number {phonechoose} contains a live round"', 0.05)
+
+                                else:
+                                    say(f' The phone says that "The shell number {phonechoose} contains a blank round"', 0.05)
+                                    
+
+                                myitems.remove('Cell phone')
+                                sleep(2)
+                                continue
+                                
+
+                        else:
+                            print("\nInvalid input")
+                            sleep(2)
+                            continue
+                            
+                    
+                    elif choice in 'Dd' or choice in 'Yy':
+                        choice=choice.upper()
+                        break
+                    
+                    else:
+                        print("\n Invalid input")
+                        sleep(2)
+                        continue
+                        
+
+                if choice=='D':
+                    if mag[0]=='L':
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOOM! You shot the dealer")
+                        dl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+                    else:                 
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("Click! It was a blank round! ")
+                        sleep(2)
+                        lifenotneg()
+                        print("Dealer's life:", dl)
+                        print("Your life:", yl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+
+                else:
+                    if mag[0]=='B':
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("Click... You survived!")
+                        sleep(2)
+                        lifenotneg()
+                        print("Your life", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        del placement[0]
+                        turn=0
+                    else:
+                        sleep(0.5)
+                        dots()
+                        sleep(2)
+                        print("BOOOOM!... You shot yourself!")
+                        yl-=dmg
+                        dmg=1
+                        sleep(2)
+                        lifenotneg()
+                        print("Your life", yl)
+                        print("Dealer's life:", dl)
+                        del mag[0]
+                        del placement[0]
+                        turn=1
+
+            
+            else:# <====Dealer's turn
+                printline()
+                sleep(1.5)
+                print("\n Dealer's turn")
+                dmg=1
+                mgused=False
+                know=False
+                shoot=False
+                
+                inverter=False
+                dealerAI(3,know, shoot,inverter, dealerphone, dealeritems, mag, placement)
+
+
+
+            if len(mag)==0 and not(yl<=0 or dl<=0):
+                sleep(2)
+                dots()
+                sleep(1)
+                say("The rounds got over", 0.05)
+                sleep(1.5)
+                say("Get ready for a new combination of rounds",0.05)
+                sleep(1)
+                printline()
+                print()
+                print()
+                sleep(2)
+                status='3changemag'
+                break
+
+            if yl<=0:
+                sleep(3)
+                dots()
+                sleep(3.5)
+                say("Luck is not on your side today!", 0.05)
+                sleep(3)
+                say("So close yet so far! R.I.P", 0.05)
+                sleep(3)
+                print("Game Over !!!")
+                sys.exit()
+                
+            if dl<=0:
+                #You have received a suitcase code
+                sleep(3)
+                dots()
+                sleep(2)
+                say("Dealer's blood splashes",0.05)
+                sleep(3)
+                say(f'You did it {name}! You have beaten the immortal dealer!', 0.05)
+                sleep(2)
+                say("You feel something is approaching you", 0.05)
+                sleep(2)
+                say("A suitcase....... Press enter to open it", 0.05)
+                input()
+                name=name.upper()
+                say(f"YOU DID IT !!! THE KING MAKER {name}! THE MASTER GAMBLER! THE DAREDEVIL!",0.05)
+                sleep(3)
+                say("1 BILLION DOLLARS!!! MONEY! MONEY!! MONEYYY!!!!!! ",0.05)
+                sleep(3)
+                say("But wait! There is a paper! Maybe something is written on it?",0.05)
+                sleep(2)
+                input("Press enter to read")
+                say('''
+-----------------------
+Mr. Dealer’s Final Note
+
+To the Player Who Defeated Me,
+
+You’ve done what no one else could.
+You faced me down, held your nerve, and survived.
+Many have gambled, many have tried.
+But in the end, I was always the last one standing.
+Yet here you are, still breathing, while I have met my end.
+.....
+Consider this victory not just a game, but a mark of greatness—an
+achievement few could even dream of. You’ve beaten the "devil".
+But before I go, let me tell you who you really defeated.
+I was once known as "THE DARK DEVIL"—a name that struck fear
+long before you ever sat across from me. I played not just with shotguns
+but with lives, making fate my rule, destruction my craft.
+I was feared by the world because I won every game, not by chance,
+but by knowing how to bend fate itself. I took everything from my opponents
+--—their fortunes, their hopes, their futures.
+Some say I was cursed, others whispered that I was no longer human,
+but an apparition that fed on the thrill of the game.
+
+.....
+Now you carry my title,
+for you've proven yourself worthy of this ruthless throne.
+I may be gone, but my legend lives in you.
+Remember this victory, but also know that with it, you inherit my shadows.
+....
+Not all hauntings come from the dead, after all.
+
+Farewell.''',0.06)
+                sleep(30)
+                sys.exit()
+
+
+#Round 3 initial 
+
+items=['Cigarette','Magnifying glass','Beer', 'Saw','Inverter', 'Cell phone', 'Medicine',]
+poss=[['L', 'L', 'L','L', 'L',  'B', 'B', 'B', 'B'],
+      ['L', 'L', 'L', 'B', 'B', 'B', 'B'],
+      ['B', 'B', 'B','B', 'B', 'L', 'L', 'L', 'L', 'L'],
+      ['B', 'B','B', 'L', 'L', 'L']]
+mag=[]
+dealeritems=[]
+myitems=[]
+yl=6
+dl=6
+printline()
+sleep(4)
+say('------- FINAL ROUND -------',0.05)
+sleep(2)
+say('Dealer: "Long last"', 0.05)
+sleep(2)
+say('Dealer: "We arrive at the final showdown"', 0.05)
+sleep(3)
+say('Dealer: "Now just me and you"', 0.05)
+sleep(4)
+say('Dealer: "We are dancing on the edge of life and death"', 0.05)
+sleep(3)
+input('Enter your reply to dealer --- ')
+sleep(4)
+say('Dealer: "Good luck..."', 0.05)
+sleep(3)
+printline()
+say('4 items for each',0.05)
+sleep(2)
+say('More items before every load', 0.05)
+sleep(3)
+say(f"\n Your life: {yl}",0.05)
+sleep(1.5)
+say(f"\n Dealer's life: {dl}",0.05)
+sleep(3)
+printline()
+sleep(1)
+i=0
+round3(name) #<==== round 3 entire code
